@@ -5,26 +5,28 @@ env:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
     DOCKER_REGISTRY_URL: /myapp/docker-registry/url
+
 phases:
   install:
     runtime-versions:
       python: 3.11
+
   pre_build:
     commands:
-      - echo "Installing dependencies..."
-      - pip install -r AWS-CODEPIPLINE/aws-proj/requirements.txt
+      - pip install -r aws-proj/requirements.txt
+
   build:
     commands:
-      - echo "Running tests..."
-      - cd AWS-CODEPIPLINE/aws-proj/
-      - echo "Building Docker image..."
+      - cd day-14/sample-python-app
+      - echo "Building Docker Image"
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest" .
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aws-proj:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aws-proj:latest"
+
   post_build:
     commands:
-      - echo "Build completed successfully!"
+      - echo "Build is Successful"
+
 artifacts:
   files:
     - '**/*'
-  base-directory: ../aws-proj
