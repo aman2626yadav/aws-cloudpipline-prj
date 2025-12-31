@@ -20,7 +20,7 @@ phases:
       - cd aws-proj
       - echo "Building Docker Image"
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aws-proj:latest" 
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aws-proj:latest" . 
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/aws-proj:latest" 
 
   post_build:
@@ -30,3 +30,4 @@ phases:
 artifacts:
   files:
     - '**/*'
+
